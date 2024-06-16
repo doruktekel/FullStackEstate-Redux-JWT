@@ -1,11 +1,12 @@
 import { CiSearch } from "react-icons/ci";
 import { Link } from "react-router-dom";
+import { FiLogIn } from "react-icons/fi";
 
 const Header = () => {
   return (
     <header className="bg-slate-50  ">
       <div className="flex justify-between  items-center max-w-7xl mx-auto p-3">
-        <div className="font-bold">
+        <div className="font-bold ">
           <Link to={"/"}>
             Real <span className="text-slate-400"> Estate</span>
           </Link>
@@ -30,8 +31,9 @@ const Header = () => {
             </li>
             <li>
               <Link to={"/login"}>
-                <button class="bg-transparent hover:bg-slate-500 text-slate-700 hover:text-white py-1 px-2 border border-slate-500 hover:border-transparent rounded">
+                <button class="bg-transparent hover:bg-slate-500 text-slate-700 hover:text-white py-1 px-2 border border-slate-500 hover:border-transparent rounded flex items-center gap-1">
                   Login
+                  <FiLogIn />
                 </button>
               </Link>
             </li>
