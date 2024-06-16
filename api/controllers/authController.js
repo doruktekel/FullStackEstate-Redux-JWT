@@ -1,7 +1,8 @@
-import { hashPassword } from "../helpers/pass.js";
+import { comparePassword, hashPassword } from "../helpers/pass.js";
 import UserModal from "../models/userModel.js";
 import validator from "validator";
 import asyncHandler from "express-async-handler";
+import jwt from "jsonwebtoken";
 
 const register = asyncHandler(async (req, res) => {
   const { username, email, password } = req.body;
@@ -50,4 +51,37 @@ const register = asyncHandler(async (req, res) => {
   res.status(201).json({ message: "Registration was successfully" });
 });
 
-export { register };
+const login = asyncHandler(async (req, res) => {
+  const { email, password } = req.body;
+
+  const user = await UserModal.findOne({ email });
+
+  if (!user) {
+    res.status(404);
+    throw new Error("User not found");
+  }
+
+  const isPassword = comparePassword(password, user.password);
+
+  if (!isPassword) {
+    res.status(400);
+    throw new Error("Credentials are wrong");
+  }
+
+  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY, {
+    expiresIn: "30d",
+  });
+
+  const { password: _, ...rest } = user;
+
+  res
+    .cookie("token", token, {
+      httpOnly: true,
+      sameSite: "strict",
+      maxAge: 30 * 24 * 60 * 60 * 100,
+    })
+    .status(200)
+    .json(rest);
+});
+
+export { register, login };

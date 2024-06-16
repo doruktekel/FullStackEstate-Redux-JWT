@@ -1,12 +1,17 @@
-import { Link } from "react-router-dom";
-import { FiLogIn } from "react-icons/fi";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import axios from "axios";
 const Register = () => {
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     password: "",
   });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const navigate = useNavigate();
+
   const handleChange = (e) => {
     const { value, name } = e.target;
     setFormData((prevData) => ({
@@ -16,8 +21,25 @@ const Register = () => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
+    try {
+      setLoading(true);
+      const res = await axios.post("/api/auth/register", formData);
+      const data = res.data;
+      if (data.success === false) {
+        setLoading(false);
+        setError(data.message);
+        return;
+      }
+
+      setLoading(false);
+      setError(null);
+      navigate("/login");
+    } catch (error) {
+      setLoading(false);
+      setError(error.message);
+    }
   };
-  console.log(formData);
+
   return (
     <div className="max-w-md mx-auto">
       <form
@@ -47,10 +69,11 @@ const Register = () => {
           name="password"
         />
         <button
+          disabled={loading}
           type="submit"
-          className="bg-slate-700 text-white p-2 rounded-xl"
+          className="bg-slate-700 text-white p-2 rounded-xl disabled:opacity-70"
         >
-          Register
+          {loading ? "Loading..." : "Register"}
         </button>
       </form>
       <div>
