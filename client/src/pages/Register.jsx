@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
+import OAuth from "../components/OAuth";
 const Register = () => {
   const [formData, setFormData] = useState({
     username: "",
@@ -75,6 +76,7 @@ const Register = () => {
         >
           {loading ? "Loading..." : "Register"}
         </button>
+        <OAuth />
       </form>
       <div>
         Have an account
