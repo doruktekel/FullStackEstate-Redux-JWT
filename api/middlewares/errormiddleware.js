@@ -5,8 +5,8 @@ const notFound = (req, res, next) => {
 };
 
 const errorMiddleware = (err, req, res, next) => {
-  const statusCode = res.statusCode || 500;
-  const message = err.message || "Internal server error";
+  let statusCode = res.statusCode || 500;
+  let message = err.message || "Internal server error";
 
   if (err.name === "CastError" && err.kind === "ObjectId") {
     statusCode = 404;

@@ -1,5 +1,5 @@
 import { comparePassword, hashPassword } from "../helpers/pass.js";
-import UserModal from "../models/userModel.js";
+import UserModel from "../models/userModel.js";
 import validator from "validator";
 import asyncHandler from "express-async-handler";
 import jwt from "jsonwebtoken";
@@ -12,7 +12,7 @@ const register = asyncHandler(async (req, res) => {
     throw new Error("Wrong email format");
   }
 
-  const user = await UserModal.findOne({ email });
+  const user = await UserModel.findOne({ email });
 
   if (user) {
     res.status(400);
@@ -42,7 +42,7 @@ const register = asyncHandler(async (req, res) => {
   }
 
   const hashedPassword = await hashPassword(password);
-  await UserModal.create({
+  await UserModel.create({
     username: trimmedUserName,
     email,
     password: hashedPassword,
@@ -54,7 +54,7 @@ const register = asyncHandler(async (req, res) => {
 const login = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
-  const user = await UserModal.findOne({ email });
+  const user = await UserModel.findOne({ email });
 
   if (!user) {
     res.status(404);
@@ -84,4 +84,55 @@ const login = asyncHandler(async (req, res) => {
     .json(rest);
 });
 
-export { register, login };
+const google = asyncHandler(async (req, res) => {
+  const { username, email, profilePicture } = req.body;
+
+  const user = await UserModel.findOne({ email });
+
+  if (user) {
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY, {
+      expiresIn: "30d",
+    });
+    const { password: _, ...rest } = user._doc;
+    res
+      .cookie("token", token, {
+        httpOnly: true,
+        sameSite: "strict",
+        maxAge: 30 * 24 * 60 * 60 * 1000,
+      })
+      .status(200)
+      .json(rest);
+  } else {
+    const generatedPassword =
+      Math.random().toString(36).slice(-8) +
+      Math.random().toString(36).slice(-8);
+
+    const hashedPassword = await hashPassword(generatedPassword);
+
+    const user = await UserModel.create({
+      username:
+        username.split(" ").join("").toLowerCase() +
+        Math.random().toString(36).slice(-4),
+      email,
+      password: hashedPassword,
+      profilePicture,
+    });
+
+    const { password: _, ...rest } = user._doc;
+
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY, {
+      expiresIn: "30d",
+    });
+
+    res
+      .cookie("token", token, {
+        httpOnly: true,
+        maxAge: 30 * 24 * 60 * 60 * 1000,
+        sameSite: "strict",
+      })
+      .status(200)
+      .json(rest);
+  }
+});
+
+export { register, login, google };

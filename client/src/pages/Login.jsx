@@ -7,6 +7,7 @@ import {
   loginStart,
   loginSuccess,
 } from "../../features/user/userSlice";
+import OAuth from "../components/OAuth";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -71,6 +72,7 @@ const Login = () => {
         >
           {loading ? "Loading..." : "Login"}
         </button>
+        <OAuth />
       </form>
       <div>
         Dont you have an account ?
