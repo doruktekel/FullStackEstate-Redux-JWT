@@ -1,14 +1,21 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  loginFailure,
+  loginStart,
+  loginSuccess,
+} from "../../features/user/userSlice";
 
 const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+
+  const { error, loading } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
 
@@ -22,21 +29,17 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      setLoading(true);
+      dispatch(loginStart());
       const res = await axios.post("/api/auth/login", formData);
       const data = res.data;
       if (data.success === false) {
-        setLoading(false);
-        setError(data.message);
+        dispatch(loginFailure(data.message));
         return;
       }
-
-      setLoading(false);
-      setError(null);
+      dispatch(loginSuccess(data));
       navigate("/");
     } catch (error) {
-      setLoading(false);
-      setError(error.message);
+      dispatch(loginFailure(error.message));
     }
   };
 

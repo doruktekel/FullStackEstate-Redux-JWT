@@ -72,7 +72,7 @@ const login = asyncHandler(async (req, res) => {
     expiresIn: "30d",
   });
 
-  const { password: _, ...rest } = user;
+  const { password: _, ...rest } = user._doc;
 
   res
     .cookie("token", token, {
