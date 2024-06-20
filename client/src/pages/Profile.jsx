@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useRef } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import {
   getDownloadURL,
   getStorage,
@@ -8,15 +8,22 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { app } from "../firebase";
+import {
+  updateFailure,
+  updateStart,
+  updateSuccess,
+} from "../../features/user/userSlice.js";
+import axios from "axios";
 
 const Profile = () => {
-  const { currentUser } = useSelector((state) => state.user);
+  const { currentUser, loading, error } = useSelector((state) => state.user);
   const [file, setFile] = useState(undefined);
   const [filePercentage, setFilePercentage] = useState(0);
   const [fileUploadError, setFileUploadError] = useState(false);
   const fileRef = useRef(null);
   const [formData, setFormData] = useState({});
-  console.log(fileUploadError);
+  const [updateSuccessState, setUpdateSuccessState] = useState(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (file) {
@@ -54,9 +61,39 @@ const Profile = () => {
     );
   };
 
+  const handleChange = async (e) => {
+    const { value, name } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      dispatch(updateStart());
+      const res = await axios.post(
+        `/api/user/update/${currentUser._id}2`,
+        formData
+      );
+      const data = res.data;
+      if (data.success === false) {
+        dispatch(updateFailure(data.message));
+      }
+      dispatch(updateSuccess(data));
+      setUpdateSuccessState(true);
+    } catch (error) {
+      dispatch(updateFailure(error.message));
+    }
+  };
+
   return (
     <div className="max-w-md mx-auto">
-      <form className="flex flex-col text-center gap-2 my-2">
+      <form
+        className="flex flex-col text-center gap-2 my-2"
+        onSubmit={handleSubmit}
+      >
         <h1 className="font-semibold text-xl">Profile</h1>
         <input
           type="file"
@@ -89,23 +126,29 @@ const Profile = () => {
         <input
           type="text"
           className="bg-slate-50 rounded-xl p-2"
-          name="text"
+          name="username"
           placeholder="username"
+          onChange={handleChange}
+          defaultValue={currentUser.username}
         />
         <input
           type="email"
           className="bg-slate-50 rounded-xl p-2"
           name="email"
           placeholder="email"
+          onChange={handleChange}
+          defaultValue={currentUser.email}
         />
         <input
           type="password"
           className="bg-slate-50 rounded-xl p-2"
           name="password"
           placeholder="password"
+          onChange={handleChange}
         />
         <button
           type="submit"
+          disabled={loading}
           className="bg-slate-700 text-white p-2 rounded-xl disabled:opacity-70 hover:opacity-75 hover:shadow-lg"
         >
           Update
@@ -118,6 +161,12 @@ const Profile = () => {
         >
           Delete Account
         </button>
+      </div>
+      <div>
+        <span className="text-green-500">
+          {updateSuccessState ? "Updated succesfully" : null}
+        </span>
+        <span className="text-red-500">{error ? error : null}</span>
       </div>
     </div>
   );
