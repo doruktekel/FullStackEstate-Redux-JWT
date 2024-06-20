@@ -44,7 +44,7 @@ const Header = () => {
               <Link to={"/about"}>About</Link>
             </li>
             <li className="relative">
-              <Link to="/profile" onClick={toggleDropdown}>
+              <Link onClick={toggleDropdown}>
                 {currentUser ? (
                   <img
                     src={currentUser.profilePicture}
@@ -52,12 +52,16 @@ const Header = () => {
                     className="w-10 h-10 rounded-full"
                   />
                 ) : (
-                  <button className="bg-transparent hover:bg-slate-500 text-slate-700 hover:text-white py-1 px-2 border border-slate-500 hover:border-transparent rounded flex items-center gap-1">
+                  <Link
+                    to={"/login"}
+                    className="bg-transparent hover:bg-slate-500 text-slate-700 hover:text-white py-1 px-2 border border-slate-500 hover:border-transparent rounded flex items-center gap-1"
+                  >
                     Login
                     <FiLogIn />
-                  </button>
+                  </Link>
                 )}
               </Link>
+
               {isOpen && currentUser && (
                 <div className="absolute mt-2 w-44 right-0  bg-white rounded-lg shadow-lg py-1 text-center flex flex-col items-center gap-1">
                   <p className=" text-gray-800">
@@ -65,6 +69,12 @@ const Header = () => {
                   </p>
 
                   <hr className="w-full" />
+                  <Link
+                    to="/profile"
+                    className="block w-full text-gray-800 text-center hover:bg-slate-700 hover:text-white"
+                  >
+                    Profile
+                  </Link>
                   <button
                     className="block w-full text-gray-800 text-center hover:bg-slate-700 hover:text-white"
                     onClick={handleLogout}
