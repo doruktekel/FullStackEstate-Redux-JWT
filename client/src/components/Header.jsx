@@ -1,16 +1,34 @@
 import { CiSearch } from "react-icons/ci";
 import { Link } from "react-router-dom";
 import { FiLogIn } from "react-icons/fi";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
+import {
+  logoutFailure,
+  logoutStart,
+  logoutSuccess,
+} from "../../features/user/userSlice";
+import axios from "axios";
 
 const Header = () => {
   const { currentUser } = useSelector((state) => state.user);
 
+  const dispatch = useDispatch();
+
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleLogout = () => {
-    // Logout işlemlerini burada gerçekleştir
+  const handleLogout = async () => {
+    try {
+      dispatch(logoutStart());
+      const res = await axios.get("/api/auth/logout");
+      const data = res.data;
+      if (data.success === false) {
+        dispatch(logoutFailure(data.message));
+      }
+      dispatch(logoutSuccess());
+    } catch (error) {
+      dispatch(logoutFailure(error.message));
+    }
   };
 
   const toggleDropdown = () => {
