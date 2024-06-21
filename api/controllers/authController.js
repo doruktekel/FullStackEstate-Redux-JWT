@@ -135,4 +135,11 @@ const google = asyncHandler(async (req, res) => {
   }
 });
 
-export { register, login, google };
+const logout = asyncHandler(async (req, res) => {
+  res
+    .clearCookie("token")
+    .status(200)
+    .json("User has been logout successfully");
+});
+
+export { register, login, google, logout };

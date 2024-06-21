@@ -12,6 +12,9 @@ import {
   updateFailure,
   updateStart,
   updateSuccess,
+  deleteFailure,
+  deleteStart,
+  deleteSuccess,
 } from "../../features/user/userSlice.js";
 import axios from "axios";
 
@@ -74,7 +77,7 @@ const Profile = () => {
     try {
       dispatch(updateStart());
       const res = await axios.post(
-        `/api/user/update/${currentUser._id}2`,
+        `/api/user/update/${currentUser._id}`,
         formData
       );
       const data = res.data;
@@ -85,6 +88,20 @@ const Profile = () => {
       setUpdateSuccessState(true);
     } catch (error) {
       dispatch(updateFailure(error.message));
+    }
+  };
+
+  const handleDeleteUser = async () => {
+    try {
+      dispatch(deleteStart());
+      const res = await axios.delete(`/api/user/delete/${currentUser._id}`);
+      const data = res.data;
+      if (data.success === false) {
+        dispatch(updateFailure(data.message));
+      }
+      dispatch(deleteSuccess(data));
+    } catch (error) {
+      dispatch(deleteFailure(error.message));
     }
   };
 
@@ -156,6 +173,7 @@ const Profile = () => {
       </form>
       <div>
         <button
+          onClick={handleDeleteUser}
           type="submit"
           className="bg-red-700 text-white p-2 rounded-xl disabled:opacity-70 hover:opacity-75 hover:shadow-lg w-full"
         >
