@@ -6,6 +6,7 @@ import userRouter from "./routes/userRouter.js";
 import { errorMiddleware, notFound } from "./middlewares/errorMiddleware.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import listRouter from "./routes/listRouter.js";
 
 const app = express();
 
@@ -29,6 +30,7 @@ app.get("/", (req, res) => {
 
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
+app.use("/api/list", listRouter);
 
 app.use(notFound);
 app.use(errorMiddleware);

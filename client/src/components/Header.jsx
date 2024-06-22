@@ -55,6 +55,16 @@ const Header = () => {
         </div>
         <div>
           <ul className="flex items-center gap-5">
+            {currentUser ? (
+              <li>
+                <Link
+                  to={"/createlist"}
+                  className="bg-transparent hover:bg-slate-500 text-slate-700 hover:text-white py-1 px-2 border border-slate-500 hover:border-transparent rounded flex items-center gap-1"
+                >
+                  New List
+                </Link>
+              </li>
+            ) : null}
             <li>
               <Link to={"/"}>Home</Link>
             </li>
