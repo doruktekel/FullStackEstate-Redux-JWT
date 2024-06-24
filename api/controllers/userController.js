@@ -1,6 +1,7 @@
 import expressAsyncHandler from "express-async-handler";
 import { hashPassword } from "../helpers/pass.js";
 import UserModel from "../models/userModel.js";
+import ListModel from "../models/listModel.js";
 
 const updateUser = expressAsyncHandler(async (req, res) => {
   if (req.user.id !== req.params.id) {
@@ -44,4 +45,20 @@ const deleteUser = expressAsyncHandler(async (req, res) => {
   res.clearCookie("token").status(200).json("User has been deleted");
 });
 
-export { updateUser, deleteUser };
+const getUserListings = expressAsyncHandler(async (req, res) => {
+  if (req.user.id === req.params.id) {
+    const lists = await ListModel.find({ userRef: req.user.id });
+
+    if (!lists) {
+      res.status(401);
+      throw new Error("Can not find lists");
+    }
+
+    res.status(200).json(lists);
+  }
+
+  res.status(401);
+  throw new Error("You can only view your listings");
+});
+
+export { updateUser, deleteUser, getUserListings };
