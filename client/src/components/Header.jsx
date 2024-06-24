@@ -98,6 +98,12 @@ const Header = () => {
 
                   <hr className="w-full" />
                   <Link
+                    to="/lists"
+                    className="block w-full text-gray-800 text-center hover:bg-slate-700 hover:text-white"
+                  >
+                    Show my lists
+                  </Link>
+                  <Link
                     to="/profile"
                     className="block w-full text-gray-800 text-center hover:bg-slate-700 hover:text-white"
                   >

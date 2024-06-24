@@ -9,6 +9,7 @@ import Header from "./components/Header";
 import axios from "axios";
 import PrivateRoute from "./components/PrivateRoute";
 import CreateList from "./pages/CreateList";
+import Lists from "./pages/Lists";
 
 axios.defaults.baseURL = "http://localhost:3000";
 axios.defaults.withCredentials = true;
@@ -23,6 +24,7 @@ const App = () => {
         <Route element={<PrivateRoute />}>
           <Route path="/profile" element={<Profile />} />
           <Route path="/createlist" element={<CreateList />} />
+          <Route path="/lists" element={<Lists />} />
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
