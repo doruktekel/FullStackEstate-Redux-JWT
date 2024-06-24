@@ -54,7 +54,7 @@ const getUserListings = expressAsyncHandler(async (req, res) => {
       throw new Error("Can not find lists");
     }
 
-    res.status(200).json(lists);
+    return res.status(200).json(lists);
   }
 
   res.status(401);
