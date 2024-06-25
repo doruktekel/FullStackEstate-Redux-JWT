@@ -91,7 +91,7 @@ const Header = () => {
               </Link>
 
               {isOpen && currentUser && (
-                <div className="absolute mt-2 w-44 right-0  bg-white rounded-lg shadow-lg py-1 text-center flex flex-col items-center gap-1">
+                <div className="absolute mt-2 w-44 right-0  bg-white rounded-lg shadow-lg py-1 text-center flex flex-col items-center gap-1 z-10">
                   <p className=" text-gray-800">
                     Welcome <br /> {currentUser.username}
                   </p>
