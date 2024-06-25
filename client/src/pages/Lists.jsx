@@ -85,9 +85,11 @@ const Lists = () => {
                   >
                     Delete
                   </button>
-                  <button className="bg-transparent hover:bg-yellow-500 text-yellow-700 hover:text-white py-1 px-2 border border-yellow-500 hover:border-transparent rounded text-center items-center gap-1 ">
-                    Edit
-                  </button>
+                  <Link to={`/updatelist/${list._id}`}>
+                    <button className="bg-transparent hover:bg-yellow-500 text-yellow-700 hover:text-white py-1 px-2 border border-yellow-500 hover:border-transparent rounded text-center items-center gap-1 ">
+                      Edit
+                    </button>
+                  </Link>
                 </div>
               </div>
             ))
