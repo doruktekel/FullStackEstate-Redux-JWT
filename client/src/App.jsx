@@ -11,6 +11,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import CreateList from "./pages/CreateList";
 import Lists from "./pages/Lists";
 import UpdateList from "./pages/UpdateList";
+import Listing from "./pages/Listing";
 
 axios.defaults.baseURL = "http://localhost:3000";
 axios.defaults.withCredentials = true;
@@ -22,6 +23,8 @@ const App = () => {
       <Routes>
         <Route exact path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
+        <Route path="/list/:id" element={<Listing />} />
+
         <Route element={<PrivateRoute />}>
           <Route path="/profile" element={<Profile />} />
           <Route path="/createlist" element={<CreateList />} />

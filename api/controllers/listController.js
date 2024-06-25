@@ -39,8 +39,12 @@ const listUpdate = expressAsyncHandler(async (req, res) => {
     throw new Error("You can only update your own lists");
   }
 
-  await ListModel.findByIdAndUpdate(req.params.id, req.body, { new: true });
-  res.status(200).json("List updating successfully");
+  const updatedList = await ListModel.findByIdAndUpdate(
+    req.params.id,
+    req.body,
+    { new: true }
+  );
+  res.status(200).json(updatedList);
 });
 
 const getList = expressAsyncHandler(async (req, res) => {
