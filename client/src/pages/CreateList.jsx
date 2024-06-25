@@ -9,6 +9,7 @@ import { app } from "../firebase";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import spinner from "/spinner.svg";
 
 const CreateList = () => {
   const [files, setFiles] = useState([]);
@@ -363,29 +364,33 @@ const CreateList = () => {
             <p className="text-red-500 text-sm">{imageUploadError}</p>
           )}
 
-          <div className="flex flex-col gap-5">
-            {formData.imageUrls.map((url, index) => {
-              return (
-                <div
-                  key={url}
-                  className="flex justify-between items-center border border-solid border-slate-200 p-4"
-                >
-                  <img
-                    className="w-32 h-32 object-cover shadow-lg"
-                    src={url}
-                    alt="images"
-                  />
-                  <button
-                    className="bg-transparent hover:bg-red-500 text-red-700 hover:text-white py-1 px-2 border border-red-500 hover:border-transparent rounded flex items-center gap-1"
-                    type="button"
-                    onClick={() => handleRemoveImage(index)}
+          {uploading ? (
+            <img src={spinner} className="self-center" />
+          ) : (
+            <div className="flex flex-col gap-5">
+              {formData.imageUrls.map((url, index) => {
+                return (
+                  <div
+                    key={url}
+                    className="flex justify-between items-center border border-solid border-slate-200 p-4"
                   >
-                    Remove
-                  </button>
-                </div>
-              );
-            })}
-          </div>
+                    <img
+                      className="w-32 h-32 object-cover shadow-lg"
+                      src={url}
+                      alt="images"
+                    />
+                    <button
+                      className="bg-transparent hover:bg-red-500 text-red-700 hover:text-white py-1 px-2 border border-red-500 hover:border-transparent rounded flex items-center gap-1"
+                      type="button"
+                      onClick={() => handleRemoveImage(index)}
+                    >
+                      Remove
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
+          )}
           <button
             disabled={loading || uploading}
             type="submit"
