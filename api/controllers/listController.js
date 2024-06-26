@@ -58,4 +58,53 @@ const getList = expressAsyncHandler(async (req, res) => {
   res.status(200).json(list);
 });
 
-export { listCreate, listDelete, listUpdate, getList };
+const getLists = expressAsyncHandler(async (req, res) => {
+  const limit = +req.query.limit || 9;
+  const index = +req.query.index || 0;
+
+  let offer = req.query.offer;
+  if (offer === undefined || offer === false) {
+    offer = { $in: [true, false] };
+  }
+
+  let furnished = req.query.furnished;
+  if (furnished === undefined || furnished === false) {
+    furnished = { $in: [true, false] };
+  }
+
+  let parking = req.query.parking;
+  if (parking === undefined || parking === false) {
+    parking = { $in: [true, false] };
+  }
+
+  let type = req.query.type;
+  if (type === undefined || type === all) {
+    type = { $in: ["rent", "sale"] };
+  }
+
+  const searchTerm = req.query.searchTerm || "";
+  const sort = req.query.sort || "createdAt";
+  const order = req.query.order || "desc";
+
+  const listing = await ListModel.find({
+    name: { $regex: searchTerm, $options: "i" },
+    offer,
+    furnished,
+    parking,
+    type,
+  })
+    .sort({
+      [sort]: order,
+    })
+    .limit(limit)
+    .skip(index);
+
+  if (!listing) {
+    res.status(404);
+    throw new Error("we can not do listing with this term");
+  }
+
+  res.status(200).json(listing);
+});
+
+export { listCreate, listDelete, listUpdate, getList, getLists };
