@@ -15,6 +15,8 @@ import {
   FaChair,
   FaAngleDoubleDown,
 } from "react-icons/fa";
+import { useSelector } from "react-redux";
+import ContactLord from "../components/ContactLord";
 
 const Listing = () => {
   const [error, setError] = useState(false);
@@ -22,6 +24,8 @@ const Listing = () => {
   const params = useParams();
   const [list, setList] = useState({});
   const [copy, setCopy] = useState(false);
+  const { currentUser } = useSelector((store) => store.user);
+  const [contact, setContact] = useState(false);
   SwiperCore.use([Navigation]);
 
   useEffect(() => {
@@ -61,6 +65,8 @@ const Listing = () => {
     window.open(googleMapsUrl, "_blank");
   };
 
+  const handleContactLandlord = () => {};
+
   return (
     <main>
       {error && <h1>Something went wrong!</h1>}
@@ -88,7 +94,7 @@ const Listing = () => {
               Link Copied !
             </p>
           )}
-          <div className="max-w-2xl mx-auto my-5 flex flex-col gap-4 p-2 sm:p-8">
+          <div className="max-w-3xl mx-auto my-5 flex flex-col gap-4 p-2 sm:p-8">
             <p className="text-md sm:text-xl text-center sm:text-left font-semibold text-slate-800 capitalize ">
               {list.name} - ${" "}
               {list.offer
@@ -98,11 +104,11 @@ const Listing = () => {
             </p>
             <hr />
             <p
-              className="flex items-center gap-2 capitalize cursor-pointer "
+              className="flex items-center gap-2 capitalize cursor-pointer max-w-40 "
               onClick={handleMapSearch}
             >
               {" "}
-              <FaMapMarkerAlt className="text-green-700 text-xl" />{" "}
+              <FaMapMarkerAlt className="text-green-700 text-xl " />{" "}
               {list.address}
             </p>
             <div className="flex flex-wrap gap-5">
@@ -148,6 +154,15 @@ const Listing = () => {
                 <p>{list.furnished === true ? "Furnished" : "Unfurnished"}</p>
               </li>
             </ul>
+            {list.userRef !== currentUser._id && !contact && (
+              <button
+                className="p-1 text-slate-100 bg-slate-900 rounded-lg hover:opacity-75 shadow-lg"
+                onClick={() => setContact(true)}
+              >
+                Contact Landlord
+              </button>
+            )}
+            {contact && <ContactLord list={list} />}
           </div>
         </div>
       )}

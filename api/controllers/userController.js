@@ -61,4 +61,16 @@ const getUserListings = expressAsyncHandler(async (req, res) => {
   throw new Error("You can only view your listings");
 });
 
-export { updateUser, deleteUser, getUserListings };
+const getUser = expressAsyncHandler(async (req, res) => {
+  const userId = req.params.id;
+  const user = await UserModel.findById(userId);
+  if (!user) {
+    res.status(404);
+    throw new Error("list owner has not found !");
+  }
+  const { password: _, ...rest } = user._doc;
+
+  res.status(200).json(rest);
+});
+
+export { updateUser, deleteUser, getUserListings, getUser };
