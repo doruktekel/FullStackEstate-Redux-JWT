@@ -1,8 +1,8 @@
 import { CiSearch } from "react-icons/ci";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FiLogIn } from "react-icons/fi";
 import { useSelector, useDispatch } from "react-redux";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   logoutFailure,
   logoutStart,
@@ -12,6 +12,27 @@ import axios from "axios";
 
 const Header = () => {
   const { currentUser } = useSelector((state) => state.user);
+  const [searchTerm, setSearchTerm] = useState("");
+  const navigate = useNavigate();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const urlParams = new URLSearchParams(window.location.search);
+    urlParams.set("searchTerm", searchTerm);
+    const searchQuery = urlParams.toString();
+    navigate(`/search?${searchQuery}`);
+  };
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search);
+    const searchTermFromUrl = urlParams.get("searchTerm");
+    if (searchTermFromUrl) {
+      setSearchTerm(searchTermFromUrl);
+    }
+  }, [location.search]);
+
+  const deneme = new URLSearchParams(window.location.search);
+  console.log(deneme);
 
   const dispatch = useDispatch();
 
@@ -44,13 +65,20 @@ const Header = () => {
           </Link>
         </div>
         <div>
-          <form className="flex items-center bg-slate-100 p-2 rounded-lg">
+          <form
+            className="flex items-center bg-slate-100 p-2 rounded-lg"
+            onSubmit={handleSubmit}
+          >
             <input
               type="text"
               placeholder="Search"
               className="outline-none rounded-lg place w-24 sm:w-64 bg-transparent"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
             />
-            <CiSearch />
+            <button>
+              <CiSearch />
+            </button>
           </form>
         </div>
         <div>
