@@ -78,7 +78,7 @@ const getLists = expressAsyncHandler(async (req, res) => {
   }
 
   let type = req.query.type;
-  if (type === undefined || type === all) {
+  if (type === undefined || type === "all") {
     type = { $in: ["rent", "sale"] };
   }
 
