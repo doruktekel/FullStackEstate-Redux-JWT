@@ -31,9 +31,6 @@ const Header = () => {
     }
   }, [location.search]);
 
-  const deneme = new URLSearchParams(window.location.search);
-  console.log(deneme);
-
   const dispatch = useDispatch();
 
   const [isOpen, setIsOpen] = useState(false);
