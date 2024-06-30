@@ -68,7 +68,7 @@ const Listing = () => {
   const handleContactLandlord = () => {};
 
   return (
-    <main>
+    <main className="pt-16">
       {error && <h1>Something went wrong!</h1>}
       {loading && <img src={spinner} className="self-center" />}
       {list && !error && !loading && (

@@ -54,7 +54,7 @@ const Lists = () => {
     showListing();
   }, []);
   return (
-    <div className="max-w-md mx-auto mt-5 mb-10 flex flex-col justify-center">
+    <div className="max-w-md mx-auto mt-5 mb-10 flex flex-col justify-center pt-16">
       <h1 className="text-lg text-center font-semibold mb-2">My Lists</h1>
       {showListError && <p className="bg-red-500 tex-sm">Error showing list</p>}
       {loading || deleteLoading ? (

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import ListItem from "../components/ListItem";
 
 const Search = () => {
   const navigate = useNavigate();
@@ -111,8 +112,8 @@ const Search = () => {
   };
 
   return (
-    <div className="flex flex-col sm:flex-row min-h-lvh">
-      <div className="border-b-2 sm:border-r-2 p-4 ">
+    <div className="flex flex-col sm:flex-row pt-16 md:relative">
+      <div className="border-b-2 sm:border-r-2 p-4 md:fixed md:min-h-lvh ">
         <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
           <div className="flex items-center gap-2 flex-wrap">
             <label
@@ -237,8 +238,13 @@ const Search = () => {
           </button>
         </form>
       </div>
-      <div className="p-4 ">
-        <h1 className="font-semibold">Listing Results :</h1>
+      <div className="p-2 md:flex-1 md:ml-[400px]">
+        <h1 className="font-semibold border-b-2 p-2 ">Listing Results :</h1>
+        <div className="flex gap-10 flex-wrap m-5">
+          {listings &&
+            listings.length > 0 &&
+            listings.map((list) => <ListItem key={list._id} list={list} />)}
+        </div>
       </div>
     </div>
   );

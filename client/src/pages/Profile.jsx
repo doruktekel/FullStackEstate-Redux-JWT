@@ -106,7 +106,7 @@ const Profile = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto">
+    <div className="max-w-md mx-auto pt-16">
       <form
         className="flex flex-col text-center gap-2 my-2"
         onSubmit={handleSubmit}

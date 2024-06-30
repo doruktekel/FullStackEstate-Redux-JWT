@@ -158,7 +158,7 @@ const CreateList = () => {
   };
 
   return (
-    <main className="max-w-4xl mx-auto mt-5">
+    <main className="max-w-4xl mx-auto mt-5 pt-16">
       <h1 className="text-center font-semibold text-lg">Create New Listing</h1>
       <form
         className="flex flex-wrap flex-col sm:flex-row gap-4"

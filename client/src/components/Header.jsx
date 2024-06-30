@@ -54,7 +54,7 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-slate-50  ">
+    <header className="bg-slate-50 fixed top-0 right-0 left-0 shadow-md z-20">
       <div className="flex justify-between  items-center max-w-7xl mx-auto p-3">
         <div className="font-bold ">
           <Link to={"/"}>
