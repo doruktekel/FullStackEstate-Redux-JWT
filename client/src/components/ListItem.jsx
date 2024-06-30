@@ -49,6 +49,7 @@ const ListItem = ({ list }) => {
             {description}
           </p>
           <p className="font-semibold text-md md:text-lg text-gray-500 capitalize overflow-hidden">
+            ${" "}
             {offer
               ? discountPrice.toLocaleString("eng-US")
               : regularPrice.toLocaleString("en-US")}

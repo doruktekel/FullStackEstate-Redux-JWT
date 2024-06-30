@@ -59,8 +59,8 @@ const getList = expressAsyncHandler(async (req, res) => {
 });
 
 const getLists = expressAsyncHandler(async (req, res) => {
-  const limit = +req.query.limit || 9;
-  const index = +req.query.index || 0;
+  const limit = parseInt(req.query.limit) || 9;
+  const index = parseInt(req.query.startIndex) || 0;
 
   let offer = req.query.offer;
   if (offer === undefined || offer === false) {
