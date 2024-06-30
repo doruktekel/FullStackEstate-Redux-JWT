@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import ListItem from "../components/ListItem";
+import spinner from "/spinner.svg";
 
 const Search = () => {
   const navigate = useNavigate();
@@ -16,7 +17,7 @@ const Search = () => {
   });
   const [loading, setLoading] = useState(false);
   const [listings, setListings] = useState([]);
-  console.log(listings);
+  const [showMore, setShowMore] = useState(true);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
@@ -53,6 +54,11 @@ const Search = () => {
       const searchQuery = urlParams.toString();
       const res = await axios.get(`/api/list/get?${searchQuery}`);
       const data = res.data;
+      if (data.length > 8) {
+        setShowMore(true);
+      } else {
+        setShowMore(false);
+      }
       setListings(data);
       setLoading(false);
     };
@@ -111,8 +117,26 @@ const Search = () => {
     navigate(`/search?${searchQuery}`);
   };
 
+  const handleShowMore = async () => {
+    const numberOfListing = listings.length;
+    const startIndex = numberOfListing;
+    const urlParams = new URLSearchParams(location.search);
+    urlParams.set("startIndex", startIndex);
+    const searchQuery = urlParams.toString();
+    const res = await axios.get(`/api/list/get?${searchQuery}`);
+    const data = res.data;
+
+    if (data.length < 9) {
+      setShowMore(false);
+    }
+    console.log(listings);
+    console.log(data);
+
+    setListings([...listings, ...data]);
+  };
+
   return (
-    <div className="flex flex-col sm:flex-row pt-16 md:relative">
+    <div className="flex flex-col sm:flex-row py-16 md:relative">
       <div className="border-b-2 sm:border-r-2 p-4 md:fixed md:min-h-lvh ">
         <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
           <div className="flex items-center gap-2 flex-wrap">
@@ -238,13 +262,30 @@ const Search = () => {
           </button>
         </form>
       </div>
-      <div className="p-2 md:flex-1 md:ml-[400px]">
+      <div className="p-2 md:flex-1 md:ml-[400px] ">
         <h1 className="font-semibold border-b-2 p-2 ">Listing Results :</h1>
-        <div className="flex gap-10 flex-wrap m-5">
-          {listings &&
-            listings.length > 0 &&
-            listings.map((list) => <ListItem key={list._id} list={list} />)}
-        </div>
+        {loading ? (
+          <div className="flex justify-center">
+            {" "}
+            <img src={spinner} className="self-center" />
+          </div>
+        ) : (
+          <div className="flex gap-10 flex-wrap m-5">
+            {listings &&
+              listings.length > 0 &&
+              listings.map((list) => <ListItem key={list._id} list={list} />)}
+          </div>
+        )}
+        {showMore && (
+          <div className="text-center">
+            <button
+              className="bg-transparent hover:bg-slate-500 text-slate-700 hover:text-white py-1 px-2 border border-slate-500 hover:border-transparent rounded  whitespace-nowrap "
+              onClick={handleShowMore}
+            >
+              Show More
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -57,7 +57,7 @@ const Header = () => {
     <header className="bg-slate-50 fixed top-0 right-0 left-0 shadow-md z-20">
       <div className="flex justify-between  items-center max-w-7xl mx-auto p-3">
         <div className="font-bold ">
-          <Link to={"/"}>
+          <Link to={"/"} className="whitespace-nowrap">
             Real <span className="text-slate-400"> Estate</span>
           </Link>
         </div>
@@ -84,16 +84,16 @@ const Header = () => {
               <li>
                 <Link
                   to={"/createlist"}
-                  className="bg-transparent hover:bg-slate-500 text-slate-700 hover:text-white py-1 px-2 border border-slate-500 hover:border-transparent rounded flex items-center gap-1"
+                  className="bg-transparent hover:bg-slate-500 text-slate-700 hover:text-white py-1 px-2 border border-slate-500 hover:border-transparent rounded flex items-center gap-1 whitespace-nowrap hidden sm:block"
                 >
                   New List
                 </Link>
               </li>
             ) : null}
-            <li>
+            <li className="hidden sm:block">
               <Link to={"/"}>Home</Link>
             </li>
-            <li>
+            <li className="hidden sm:block">
               <Link to={"/about"}>About</Link>
             </li>
             <li className="relative">
@@ -122,6 +122,24 @@ const Header = () => {
                   </p>
 
                   <hr className="w-full" />
+                  <Link
+                    to={"/createlist"}
+                    className="block w-full text-gray-800 text-center hover:bg-slate-700 hover:text-white sm:hidden"
+                  >
+                    New List
+                  </Link>
+                  <Link
+                    to={"/"}
+                    className="block w-full text-gray-800 text-center hover:bg-slate-700 hover:text-white sm:hidden"
+                  >
+                    Home
+                  </Link>
+                  <Link
+                    to={"/about"}
+                    className="block w-full text-gray-800 text-center hover:bg-slate-700 hover:text-white sm:hidden"
+                  >
+                    About
+                  </Link>
                   <Link
                     to="/lists"
                     className="block w-full text-gray-800 text-center hover:bg-slate-700 hover:text-white"
