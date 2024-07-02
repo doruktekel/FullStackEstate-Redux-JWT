@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import spinner from "/spinner.svg";
+import Swal from "sweetalert2";
 
 const Lists = () => {
   const [showListError, setShowListError] = useState(false);
@@ -30,23 +31,51 @@ const Lists = () => {
       setLoading(false);
     }
   };
-
   const handleDeleteList = async (id) => {
-    try {
-      setDeleteLoading(true);
-      setDeleteListError(false);
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    });
 
-      const res = await axios.delete(`/api/list/delete/${id}`);
-      const data = res.data;
+    if (result.isConfirmed) {
+      try {
+        setDeleteLoading(true);
+        setDeleteListError(false);
 
-      if (data.success === false) {
-        return setDeleteListError(true);
+        const res = await axios.delete(`/api/list/delete/${id}`);
+        const data = res.data;
+
+        if (data.success === false) {
+          setDeleteListError(true);
+          Swal.fire({
+            title: "Error!",
+            text: "There was an error deleting the list.",
+            icon: "error",
+          });
+          return;
+        }
+
+        setUserListing((prev) => prev.filter((lists) => lists._id !== id));
+        Swal.fire({
+          title: "Deleted!",
+          text: "The list has been deleted.",
+          icon: "success",
+        });
+      } catch (error) {
+        setDeleteListError(true);
+        Swal.fire({
+          title: "Error!",
+          text: "There was an error deleting the list.",
+          icon: "error",
+        });
+      } finally {
+        setDeleteLoading(false);
       }
-      setUserListing((prev) => prev.filter((lists) => lists._id !== id));
-      setDeleteLoading(false);
-    } catch (error) {
-      setDeleteLoading(false);
-      setDeleteListError(true);
     }
   };
 
@@ -80,13 +109,13 @@ const Lists = () => {
                 </Link>
                 <div className="flex flex-col gap-4 text-center">
                   <button
-                    className="bg-transparent hover:bg-red-500 text-red-700 hover:text-white py-1 px-2 border border-red-500 hover:border-transparent rounded  items-center gap-1 "
+                    className="bg-transparent w-20 hover:bg-red-500 text-red-700 hover:text-white py-1 px-2 border border-red-500 hover:border-transparent rounded  transition-all duration-300 ease-in-out   items-center gap-1 "
                     onClick={() => handleDeleteList(list._id)}
                   >
                     Delete
                   </button>
                   <Link to={`/updatelist/${list._id}`}>
-                    <button className="bg-transparent hover:bg-yellow-500 text-yellow-700 hover:text-white py-1 px-2 border border-yellow-500 hover:border-transparent rounded text-center items-center gap-1 ">
+                    <button className="bg-transparent w-20 hover:bg-yellow-500 text-yellow-700 hover:text-white py-1 px-2 border border-yellow-500 hover:border-transparent rounded text-center transition-all duration-300 ease-in-out items-center gap-1 ">
                       Edit
                     </button>
                   </Link>
