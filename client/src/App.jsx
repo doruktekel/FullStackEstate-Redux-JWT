@@ -16,7 +16,7 @@ import Search from "./pages/Search";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-axios.defaults.baseURL = "https://mern-estate-sahandghavidel.onrender.com";
+axios.defaults.baseURL = "https://fullstack-estate.onrender.com";
 axios.defaults.withCredentials = true;
 
 const App = () => {

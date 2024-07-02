@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: "https://mern-estate-sahandghavidel.onrender.com",
+    origin: "https://fullstack-estate.onrender.com",
     credentials: true,
   })
 );
