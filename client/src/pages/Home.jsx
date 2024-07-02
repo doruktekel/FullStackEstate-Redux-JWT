@@ -88,7 +88,7 @@ const Home = () => {
           ))}
       </Swiper>
 
-      <div className="mx-auto max-w-7xl p-3 my-2">
+      <div className="mx-auto max-w-7xl p-3 my-2 flex flex-col">
         {offerListings && offerListings.length > 0 && (
           <div className="flex flex-col gap-3 font-semibold text-slate-500 ">
             <div className="flex flex-col gap-2">
@@ -101,7 +101,7 @@ const Home = () => {
                 <FaChevronRight />
               </Link>
             </div>
-            <div className="flex flex-wrap gap-4 pt-4">
+            <div className="flex flex-wrap gap-4 pt-4 justify-center md:justify-start ">
               {offerListings.map((list) => (
                 <ListItem key={list._id} list={list} />
               ))}
@@ -120,7 +120,7 @@ const Home = () => {
                 <FaChevronRight />
               </Link>
             </div>
-            <div className="flex flex-wrap gap-4 pt-4">
+            <div className="flex flex-wrap gap-4 pt-4 justify-center md:justify-start">
               {rentListings.map((list) => (
                 <ListItem key={list._id} list={list} />
               ))}
@@ -139,7 +139,7 @@ const Home = () => {
                 <FaChevronRight />
               </Link>
             </div>
-            <div className="flex flex-wrap gap-4 pt-4 ">
+            <div className="flex flex-wrap gap-4 pt-4 justify-center md:justify-start">
               {saleListings.map((list) => (
                 <ListItem key={list._id} list={list} />
               ))}

@@ -22,7 +22,7 @@ const errorMiddleware = (err, req, res, next) => {
     success: false,
     statusCode,
     message,
-    stack: process.env.NODE_ENV === "developer" ? err.stack : null,
+    stack: process.env.NODE_ENV === "demo" ? err.stack : null,
   });
 };
 
