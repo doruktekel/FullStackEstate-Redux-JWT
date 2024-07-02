@@ -17,6 +17,7 @@ import {
   deleteSuccess,
 } from "../../features/user/userSlice.js";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const Profile = () => {
   const { currentUser, loading, error } = useSelector((state) => state.user);
@@ -92,17 +93,35 @@ const Profile = () => {
   };
 
   const handleDeleteUser = async () => {
-    try {
-      dispatch(deleteStart());
-      const res = await axios.delete(`/api/user/delete/${currentUser._id}`);
-      const data = res.data;
-      if (data.success === false) {
-        dispatch(updateFailure(data.message));
+    Swal.fire({
+      title: "Are you sure to delete your account?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          dispatch(deleteStart());
+          const res = await axios.delete(`/api/user/delete/${currentUser._id}`);
+          const data = res.data;
+          if (data.success === false) {
+            dispatch(deleteFailure(data.message));
+          } else {
+            dispatch(deleteSuccess(data));
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your account has been deleted.",
+              icon: "success",
+            });
+          }
+        } catch (error) {
+          dispatch(deleteFailure(error.message));
+        }
       }
-      dispatch(deleteSuccess(data));
-    } catch (error) {
-      dispatch(deleteFailure(error.message));
-    }
+    });
   };
 
   return (

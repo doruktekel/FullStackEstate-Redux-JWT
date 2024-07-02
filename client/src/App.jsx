@@ -13,6 +13,8 @@ import Lists from "./pages/Lists";
 import UpdateList from "./pages/UpdateList";
 import Listing from "./pages/Listing";
 import Search from "./pages/Search";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 axios.defaults.baseURL = "http://localhost:3000";
 axios.defaults.withCredentials = true;
@@ -36,6 +38,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Routes>
+      <ToastContainer />
     </div>
   );
 };

@@ -9,6 +9,7 @@ import {
   logoutSuccess,
 } from "../../features/user/userSlice";
 import axios from "axios";
+import { FaPlus } from "react-icons/fa6";
 
 const Header = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -53,10 +54,27 @@ const Header = () => {
     setIsOpen(!isOpen);
   };
 
+  const closeDropdown = () => {
+    setIsOpen(false);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (!event.target.closest(".dropdown")) {
+        closeDropdown();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <header className="bg-slate-50 fixed top-0 right-0 left-0 shadow-md z-20">
-      <div className="flex justify-between  items-center max-w-7xl mx-auto p-3">
-        <div className="font-bold ">
+      <div className="flex justify-between items-center max-w-7xl mx-auto p-3">
+        <div className="font-bold">
           <Link to={"/"} className="whitespace-nowrap">
             Real <span className="text-slate-400"> Estate</span>
           </Link>
@@ -84,9 +102,10 @@ const Header = () => {
               <li>
                 <Link
                   to={"/createlist"}
-                  className="bg-transparent hover:bg-slate-500 text-slate-700 hover:text-white py-1 px-2 border border-slate-500 hover:border-transparent rounded flex items-center gap-1 whitespace-nowrap hidden sm:block"
+                  className="bg-transparent hover:bg-slate-500 text-slate-700 hover:text-white py-1 px-2 border border-slate-500 hover:border-transparent rounded sm:flex items-center gap-1 whitespace-nowrap hidden transition-all duration-300 ease-in-out"
                 >
-                  New List
+                  <FaPlus />
+                  <p>New List</p>
                 </Link>
               </li>
             ) : null}
@@ -96,7 +115,7 @@ const Header = () => {
             <li className="hidden sm:block">
               <Link to={"/about"}>About</Link>
             </li>
-            <li className="relative">
+            <li className="relative dropdown">
               <Link onClick={toggleDropdown}>
                 {currentUser ? (
                   <img
@@ -116,11 +135,10 @@ const Header = () => {
               </Link>
 
               {isOpen && currentUser && (
-                <div className="absolute mt-2 w-44 right-0  bg-white rounded-lg shadow-lg py-1 text-center flex flex-col items-center gap-1 z-10">
-                  <p className=" text-gray-800">
+                <div className="absolute mt-2 w-44 right-0 bg-white rounded-lg shadow-lg py-1 text-center flex flex-col items-center gap-1 z-10">
+                  <p className="text-gray-800">
                     Welcome <br /> {currentUser.username}
                   </p>
-
                   <hr className="w-full" />
                   <Link
                     to={"/createlist"}

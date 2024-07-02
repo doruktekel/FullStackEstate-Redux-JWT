@@ -76,11 +76,11 @@ const Listing = () => {
           <Swiper navigation>
             {list.imageUrls.map((url) => (
               <SwiperSlide key={url}>
-                <div className="max-h-96 w-full ">
+                <div className="h-[500px] w-full ">
                   <img
                     src={url}
                     alt="slide"
-                    className="w-full max-h-96 object-cover "
+                    className="w-full h-[500px] object-cover "
                   />
                 </div>
               </SwiperSlide>
@@ -112,11 +112,11 @@ const Listing = () => {
               {list.address}
             </p>
             <div className="flex flex-wrap gap-5">
-              <p className="capitalize bg-red-800 text-white w-40 p-1 rounded-lg text-center text-md shadow-lg ">
+              <p className="capitalize bg-red-800 text-white w-48 p-1 rounded-lg text-center text-md shadow-lg ">
                 {list.type === "rent" ? "rent" : "sale"}
               </p>
               {list.offer && (
-                <p className="capitalize bg-green-800 text-white w-40 p-1 rounded-lg  text-md shadow-lg flex gap-4 justify-center items-center ">
+                <p className="capitalize bg-green-800 text-white w-48 p-1 rounded-lg  text-md shadow-lg flex gap-4 justify-center items-center ">
                   <FaAngleDoubleDown className="text-slate-100" />
                   {list.regularPrice - list.discountPrice} $ Off{" "}
                   <FaAngleDoubleDown className="text-slate-100" />

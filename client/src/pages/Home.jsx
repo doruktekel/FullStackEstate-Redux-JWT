@@ -52,7 +52,7 @@ const Home = () => {
 
   return (
     <div className="mt-20  py-10">
-      <div className=" max-w-6xl mx-auto flex flex-col gap-10 px-5 md:px-12">
+      <div className=" max-w-7xl mx-auto flex flex-col gap-10 px-5 md:px-12">
         <p className="font-bold capitalize text-3xl md:text-6xl text-slate-800 select-none ">
           Find your next
           <span className=" text-slate-400"> perfect </span> <br /> place with
@@ -88,7 +88,7 @@ const Home = () => {
           ))}
       </Swiper>
 
-      <div className="mx-auto max-w-6xl p-3 my-2">
+      <div className="mx-auto max-w-7xl p-3 my-2">
         {offerListings && offerListings.length > 0 && (
           <div className="flex flex-col gap-3 font-semibold text-slate-500 ">
             <div className="flex flex-col gap-2">

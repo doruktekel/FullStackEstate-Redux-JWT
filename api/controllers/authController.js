@@ -7,6 +7,11 @@ import jwt from "jsonwebtoken";
 const register = asyncHandler(async (req, res) => {
   const { username, email, password } = req.body;
 
+  if (email === "" || password === "" || username === "") {
+    res.status(400);
+    throw new Error("Please fill all the blanks");
+  }
+
   if (!validator.isEmail(email)) {
     res.status(400);
     throw new Error("Wrong email format");
@@ -54,6 +59,11 @@ const register = asyncHandler(async (req, res) => {
 const login = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
+  if (email === "" || password === "") {
+    res.status(400);
+    throw new Error("Please fill all the blanks");
+  }
+
   const user = await UserModel.findOne({ email });
 
   if (!user) {
@@ -61,7 +71,7 @@ const login = asyncHandler(async (req, res) => {
     throw new Error("User not found");
   }
 
-  const isPassword = comparePassword(password, user.password);
+  const isPassword = await comparePassword(password, user.password);
 
   if (!isPassword) {
     res.status(400);

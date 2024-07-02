@@ -1,11 +1,12 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import {
   loginFailure,
   loginStart,
   loginSuccess,
+  clearError,
 } from "../../features/user/userSlice";
 import OAuth from "../components/OAuth";
 
@@ -40,17 +41,25 @@ const Login = () => {
       dispatch(loginSuccess(data));
       navigate("/");
     } catch (error) {
-      dispatch(loginFailure(error.message));
+      const errorMessage =
+        error.response && error.response.data && error.response.data.message
+          ? error.response.data.message
+          : error.message;
+      dispatch(loginFailure(errorMessage));
     }
   };
 
+  useEffect(() => {
+    dispatch(clearError());
+  }, [dispatch]);
+
   return (
-    <div className="max-w-md mx-auto">
+    <div className="max-w-md mx-auto mt-40">
       <form
         onSubmit={handleSubmit}
         className="flex flex-col  text-center gap-2 mt-5"
       >
-        <h1 className="font-semibold text-xl">Login Form</h1>
+        <h1 className="font-semibold text-xl my-5">Login Form</h1>
         <input
           type="email"
           placeholder="Email"
@@ -74,12 +83,13 @@ const Login = () => {
         </button>
         <OAuth />
       </form>
-      <div>
+      <div className="mt-2">
         Dont you have an account ?
         <Link to={"/register"} className="text-blue-500 ml-2 ">
           Register
         </Link>
       </div>
+      {error && <p className="text-red-500">* {error}</p>}
     </div>
   );
 };

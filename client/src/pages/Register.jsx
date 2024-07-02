@@ -2,6 +2,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 import OAuth from "../components/OAuth";
+import { toast } from "react-toastify";
+
 const Register = () => {
   const [formData, setFormData] = useState({
     username: "",
@@ -35,19 +37,33 @@ const Register = () => {
       setLoading(false);
       setError(null);
       navigate("/login");
+      toast.success("Registration was successfully", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     } catch (error) {
       setLoading(false);
-      setError(error.message);
+      const errorMessage =
+        error.response && error.response.data && error.response.data.message
+          ? error.response.data.message
+          : error.message;
+      setError(errorMessage);
     }
   };
 
   return (
-    <div className="max-w-md mx-auto">
+    <div className="max-w-md mx-auto mt-40">
       <form
         onSubmit={handleSubmit}
         className="flex flex-col  text-center gap-2 mt-5"
       >
-        <h1 className="font-semibold text-xl">Register Form</h1>
+        <h1 className="font-semibold text-xl my-5">Register Form</h1>
         <input
           type="text"
           placeholder="Username"
@@ -78,12 +94,14 @@ const Register = () => {
         </button>
         <OAuth />
       </form>
-      <div>
+
+      <div className="mt-2">
         Have an account
         <Link to={"/login"} className="text-blue-500 ml-2 ">
           Login
         </Link>
       </div>
+      {error && <p className="text-red-500 text-sm my-2">* {error}</p>}
     </div>
   );
 };

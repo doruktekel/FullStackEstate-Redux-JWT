@@ -25,15 +25,15 @@ const ListItem = ({ list }) => {
     imageUrls,
   } = list;
   return (
-    <div className="w-[200px] md:w-[330px] flex  gap-20 bg-slate-50 shadow-md hover:shadow-xl rounded-xl overflow-hidden">
+    <div className="w-[200px] md:w-[300px] flex  gap-20 bg-slate-50 shadow-md hover:shadow-xl rounded-xl overflow-hidden">
       <Link className="w-full" to={`/list/${_id}`}>
         <img
           src={imageUrls[0]}
           alt="banner"
-          className="w-[200px] h-[200px] md:w-[330px] md:h-[330px] object-cover hover:scale-105 transition-scale duration-300 "
+          className="w-[200px] h-[200px] md:w-[300px] md:h-[330px] object-cover hover:scale-105 transition-scale duration-300 "
         />
         <div className="p-4 flex flex-col flex-wrap gap-2 w-full">
-          <p className="font-semibold text-md md:text-xl text-slate-800 capitalize truncate">
+          <p className="font-semibold text-md md:text-xl text-slate-800 capitalize w-full truncate">
             {name}
           </p>
 
@@ -41,11 +41,11 @@ const ListItem = ({ list }) => {
             <div>
               <FaMapMarkerAlt className="text-green-700 text-md md:text-xl w-4 h-4" />
             </div>
-            <p className=" text-sm md:text-md text-gray-700 capitalize truncate">
+            <p className=" text-sm md:text-md text-gray-700 capitalize w-full truncate">
               {address}
             </p>
           </div>
-          <p className="text-sm md:text-md text-gray-700 capitalize overflow-hidden line-clamp-1">
+          <p className="text-sm md:text-md text-gray-700 capitalize overflow-hidden line-clamp-2">
             {description}
           </p>
           <p className="font-semibold text-md md:text-lg text-gray-500 capitalize overflow-hidden">
