@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import dB from "./config/db.js";
 import authRouter from "./routes/authRouter.js";
 import userRouter from "./routes/userRouter.js";
-import { errorMiddleware, notFound } from "./middlewares/errorMiddleware.js";
+import { errorMiddleware, notFound } from "./middlewares/errormiddleware.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import listRouter from "./routes/listRouter.js";
