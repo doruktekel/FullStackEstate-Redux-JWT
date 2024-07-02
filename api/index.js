@@ -28,19 +28,15 @@ app.use(cookieParser());
 
 dB();
 
-app.get("/", (req, res) => {
-  res.json({ message: "Welcome !" });
-});
-
-app.use("/api/auth", authRouter);
-app.use("/api/user", userRouter);
-app.use("/api/list", listRouter);
-
 app.use(express.static(path.join(__dirname, "/client/dist")));
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
 });
+
+app.use("/api/auth", authRouter);
+app.use("/api/user", userRouter);
+app.use("/api/list", listRouter);
 
 app.use(notFound);
 app.use(errorMiddleware);
