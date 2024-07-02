@@ -7,8 +7,11 @@ import { errorMiddleware, notFound } from "./middlewares/errorMiddleware.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import listRouter from "./routes/listRouter.js";
+import path from "path";
 
 const app = express();
+
+const __dirname = path.resolve();
 
 dotenv.config();
 
@@ -31,6 +34,12 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
 app.use("/api/list", listRouter);
+
+app.use(express.static(path.join(__dirname, "/client/dist")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
+});
 
 app.use(notFound);
 app.use(errorMiddleware);
