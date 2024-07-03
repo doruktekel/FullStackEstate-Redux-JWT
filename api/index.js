@@ -11,10 +11,6 @@ import path from "path";
 
 const app = express();
 
-const __dirname = path.resolve();
-
-dotenv.config();
-
 app.use(express.json());
 app.use(urlencoded({ extended: true }));
 app.use(
@@ -23,12 +19,13 @@ app.use(
     credentials: true,
   })
 );
-
 app.use(cookieParser());
 
-dB();
-
+const __dirname = path.resolve();
 app.use(express.static(path.join(__dirname, "/client/dist")));
+
+dotenv.config();
+dB();
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
@@ -42,6 +39,6 @@ app.use(notFound);
 app.use(errorMiddleware);
 
 const PORT = process.env.PORT || 4000;
-app.listen(3000, () => {
+app.listen(PORT, () => {
   console.log(`Listening port : ${PORT}`);
 });
