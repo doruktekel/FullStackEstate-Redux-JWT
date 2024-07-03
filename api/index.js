@@ -15,7 +15,7 @@ app.use(express.json());
 app.use(urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: "https://fullstack-estate.onrender.com",
+    origin: "https://fullstackestate-redux-jwt.onrender.com",
     credentials: true,
   })
 );
