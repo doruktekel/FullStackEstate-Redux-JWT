@@ -116,7 +116,7 @@ const Header = () => {
               <Link to={"/about"}>About</Link>
             </li>
             <li className="relative dropdown">
-              <Link onClick={toggleDropdown}>
+              {/* <Link onClick={toggleDropdown}>
                 {currentUser ? (
                   <img
                     src={currentUser.profilePicture}
@@ -132,7 +132,24 @@ const Header = () => {
                     <FiLogIn />
                   </Link>
                 )}
-              </Link>
+              </Link> */}
+              {currentUser ? (
+                <Link onClick={toggleDropdown}>
+                  <img
+                    src={currentUser.profilePicture}
+                    alt="avatar"
+                    className="w-10 h-10 rounded-full"
+                  />
+                </Link>
+              ) : (
+                <Link
+                  to="/login"
+                  className="bg-transparent hover:bg-slate-500 text-slate-700 hover:text-white py-1 px-2 border border-slate-500 hover:border-transparent rounded flex items-center gap-1"
+                >
+                  Login
+                  <FiLogIn />
+                </Link>
+              )}
 
               {isOpen && currentUser && (
                 <div className="absolute mt-2 w-44 right-0 bg-white rounded-lg shadow-lg py-1 text-center flex flex-col items-center gap-1 z-10">

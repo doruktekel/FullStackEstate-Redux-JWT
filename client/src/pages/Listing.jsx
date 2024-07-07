@@ -74,7 +74,25 @@ const Listing = () => {
       {list && !error && !loading && (
         <div>
           <Swiper navigation>
-            {list.imageUrls.map((url) => (
+            {list.imageUrls &&
+              Array.isArray(list.imageUrls) &&
+              list.imageUrls.length > 0 && (
+                <Swiper navigation>
+                  {list.imageUrls.map((url) => (
+                    <SwiperSlide key={url}>
+                      <div className="h-[500px] w-full ">
+                        <img
+                          src={url}
+                          alt="slide"
+                          className="w-full h-[500px] object-cover "
+                        />
+                      </div>
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+              )}
+
+            {/* {list.imageUrls.map((url) => (
               <SwiperSlide key={url}>
                 <div className="h-[500px] w-full ">
                   <img
@@ -84,7 +102,7 @@ const Listing = () => {
                   />
                 </div>
               </SwiperSlide>
-            ))}
+            ))} */}
           </Swiper>
           <div className=" z-10 absolute top-24 right-10 w-10 h-10 bg-white rounded-full flex justify-center items-center  cursor-pointer hover:cursor-pointer  shadow-xl  ">
             <FaShare className="text-slate-500" onClick={handleCopyUrl} />
