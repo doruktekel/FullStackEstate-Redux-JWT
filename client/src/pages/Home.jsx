@@ -20,8 +20,7 @@ const Home = () => {
     const fetchSaleListings = async () => {
       try {
         const res = await axios.get("api/list/get?type=sale&limit=4");
-        const data = res.data;
-        setSaleListings(data);
+        setSaleListings(res.data);
       } catch (error) {
         console.log(error);
       }
@@ -29,9 +28,7 @@ const Home = () => {
     const fetchRentListings = async () => {
       try {
         const res = await axios.get("api/list/get?type=rent&limit=4");
-        const data = res.data;
-        setRentListings(data);
-        fetchSaleListings();
+        setRentListings(res.data);
       } catch (error) {
         console.log(error);
       }
@@ -39,15 +36,15 @@ const Home = () => {
     const fetchOfferListings = async () => {
       try {
         const res = await axios.get("/api/list/get?offer=true&limit=4");
-        const data = res.data;
-        setOfferListings(data);
-        fetchRentListings();
+        setOfferListings(res.data);
       } catch (error) {
         console.log(error);
       }
     };
 
     fetchOfferListings();
+    fetchRentListings();
+    fetchSaleListings();
   }, []);
 
   return (
