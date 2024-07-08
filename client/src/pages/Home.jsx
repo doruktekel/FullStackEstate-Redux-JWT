@@ -74,7 +74,7 @@ const Home = () => {
       <Swiper navigation className="my-10">
         {offerListings &&
           offerListings.length > 0 &&
-          offerListings.map((list) => (
+          offerListings?.map((list) => (
             <SwiperSlide key={list._id}>
               <div
                 style={{
@@ -102,7 +102,7 @@ const Home = () => {
               </Link>
             </div>
             <div className="flex flex-wrap gap-4 pt-4 justify-center md:justify-start ">
-              {offerListings.map((list) => (
+              {offerListings?.map((list) => (
                 <ListItem key={list._id} list={list} />
               ))}
             </div>
@@ -121,7 +121,7 @@ const Home = () => {
               </Link>
             </div>
             <div className="flex flex-wrap gap-4 pt-4 justify-center md:justify-start">
-              {rentListings.map((list) => (
+              {rentListings?.map((list) => (
                 <ListItem key={list._id} list={list} />
               ))}
             </div>
@@ -140,7 +140,7 @@ const Home = () => {
               </Link>
             </div>
             <div className="flex flex-wrap gap-4 pt-4 justify-center md:justify-start">
-              {saleListings.map((list) => (
+              {saleListings?.map((list) => (
                 <ListItem key={list._id} list={list} />
               ))}
             </div>
