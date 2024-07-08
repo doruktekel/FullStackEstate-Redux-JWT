@@ -368,7 +368,7 @@ const CreateList = () => {
             <img src={spinner} className="self-center" />
           ) : (
             <div className="flex flex-col gap-5">
-              {formData.imageUrls.map((url, index) => (
+              {formData?.imageUrls.map((url, index) => (
                 <div
                   key={url}
                   className="flex justify-between items-center border border-solid border-slate-200 p-4"

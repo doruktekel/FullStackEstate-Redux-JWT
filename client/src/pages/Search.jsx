@@ -89,7 +89,6 @@ const Search = () => {
         [name]: checked,
       }));
     }
-    // [name]: checked || "true" ? true : false,
     if (name === "sort_order") {
       const sort = value.split("_")[0] || "created_at";
       const order = value.split("_")[1] || "desc";
@@ -273,7 +272,7 @@ const Search = () => {
           <div className="flex gap-10 flex-wrap m-5">
             {listings &&
               listings.length > 0 &&
-              listings.map((list) => <ListItem key={list._id} list={list} />)}
+              listings?.map((list) => <ListItem key={list._id} list={list} />)}
           </div>
         )}
         {showMore && (

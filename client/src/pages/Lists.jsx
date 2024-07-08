@@ -91,7 +91,7 @@ const Lists = () => {
       ) : (
         <div className="flex flex-col gap-2">
           {userListing && userListing.length > 0 ? (
-            userListing.map((list) => (
+            userListing?.map((list) => (
               <div
                 key={list._id}
                 className="flex justify-between items-center border border-solid border-slate-200 p-4 shadow-md gap-4"
