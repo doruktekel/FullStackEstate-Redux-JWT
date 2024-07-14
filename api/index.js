@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import dB from "./config/db.js";
 import authRouter from "./routes/authRouter.js";
 import userRouter from "./routes/userRouter.js";
-import { errorMiddleware, notFound } from "./middlewares/errormiddleware.js";
+import { errorMiddleware } from "./middlewares/errormiddleware.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import listRouter from "./routes/listRouter.js";
@@ -16,6 +16,7 @@ app.use(urlencoded({ extended: true }));
 app.use(
   cors({
     origin: "https://fullstackestate-redux-jwt.onrender.com",
+    // origin: "http://localhost:5173",
     credentials: true,
   })
 );
@@ -35,7 +36,7 @@ app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
 app.use("/api/list", listRouter);
 
-app.use(notFound);
+// app.use(notFound);
 app.use(errorMiddleware);
 
 const PORT = process.env.PORT || 4000;
