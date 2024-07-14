@@ -128,8 +128,6 @@ const Search = () => {
     if (data.length < 9) {
       setShowMore(false);
     }
-    console.log(listings);
-    console.log(data);
 
     setListings([...listings, ...data]);
   };
