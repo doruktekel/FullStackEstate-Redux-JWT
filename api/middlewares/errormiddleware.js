@@ -1,8 +1,8 @@
-const notFound = (req, res, next) => {
-  const error = new Error(`Not Found - ${req.originalUrl}`);
-  res.status(404);
-  next(error);
-};
+// const notFound = (req, res, next) => {
+//   const error = new Error(`Not Found - ${req.originalUrl}`);
+//   res.status(404);
+//   next(error);
+// };
 
 const errorMiddleware = (err, req, res, next) => {
   let statusCode = res.statusCode || 500;
@@ -26,4 +26,4 @@ const errorMiddleware = (err, req, res, next) => {
   });
 };
 
-export { notFound, errorMiddleware };
+export { errorMiddleware };
