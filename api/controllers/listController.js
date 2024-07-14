@@ -1,42 +1,37 @@
-import expressAsyncHandler from "express-async-handler";
+import { handleError } from "../middlewares/errormiddleware.js";
 import ListModel from "../models/listModel.js";
 
-const listCreate = expressAsyncHandler(async (req, res) => {
+const listCreate = async (req, res, next) => {
   const list = await ListModel.create(req.body);
   if (!list) {
-    res.status(400);
-    throw new Error("List not created");
+    return next(handleError(400, "List not created"));
   }
   res.status(200).json(list);
-});
+};
 
-const listDelete = expressAsyncHandler(async (req, res) => {
+const listDelete = async (req, res, next) => {
   const list = await ListModel.findById(req.params.id);
   if (!list) {
-    res.status(401);
-    throw new Error("You have not list for deleting");
+    return next(handleError(400, "You have not list for deleting"));
   }
 
   if (req.user.id !== list.userRef) {
-    res.status(401);
-    throw new Error("You can just delete your own lists");
+    return next(handleError(401, "You can just delete your own lists"));
   }
 
   await ListModel.findByIdAndDelete(req.params.id);
 
   res.status(200).json("Listing has been deleted ");
-});
+};
 
-const listUpdate = expressAsyncHandler(async (req, res) => {
+const listUpdate = async (req, res, next) => {
   const list = await ListModel.findById(req.params.id);
   if (!list) {
-    res.status(404);
-    throw new Error("List is not found");
+    return next(handleError(404, "List is not found"));
   }
 
   if (req.user.id !== list.userRef) {
-    res.status(401);
-    throw new Error("You can only update your own lists");
+    return next(handleError(401, "You can only update your own lists"));
   }
 
   const updatedList = await ListModel.findByIdAndUpdate(
@@ -45,20 +40,19 @@ const listUpdate = expressAsyncHandler(async (req, res) => {
     { new: true }
   );
   res.status(200).json(updatedList);
-});
+};
 
-const getList = expressAsyncHandler(async (req, res) => {
+const getList = async (req, res, next) => {
   const list = await ListModel.findById(req.params.id);
 
   if (!list) {
-    res.status(404);
-    throw new Error("list is not found");
+    return next(handleError(404, "List is not found"));
   }
 
   res.status(200).json(list);
-});
+};
 
-const getLists = expressAsyncHandler(async (req, res) => {
+const getLists = async (req, res, next) => {
   const limit = parseInt(req.query.limit) || 9;
   const index = parseInt(req.query.startIndex) || 0;
 
@@ -100,11 +94,9 @@ const getLists = expressAsyncHandler(async (req, res) => {
     .skip(index);
 
   if (!listing) {
-    res.status(404);
-    throw new Error("we can not do listing with this term");
+    return next(handleError(404, "we can not do listing with this term"));
   }
-
   res.status(200).json(listing);
-});
+};
 
 export { listCreate, listDelete, listUpdate, getList, getLists };

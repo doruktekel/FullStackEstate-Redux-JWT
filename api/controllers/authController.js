@@ -1,34 +1,34 @@
 import { comparePassword, hashPassword } from "../helpers/pass.js";
 import UserModel from "../models/userModel.js";
 import validator from "validator";
-import asyncHandler from "express-async-handler";
 import jwt from "jsonwebtoken";
+import { handleError } from "../middlewares/errormiddleware.js";
 
-const register = asyncHandler(async (req, res) => {
+const register = async (req, res, next) => {
   const { username, email, password } = req.body;
 
   if (email === "" || password === "" || username === "") {
-    res.status(400);
-    throw new Error("Please fill all the blanks");
+    return next(handleError(400, "Please fill all the blanks"));
   }
 
   if (!validator.isEmail(email)) {
-    res.status(400);
-    throw new Error("Wrong email format");
+    return next(handleError(400, "Wrong email format"));
   }
 
   const user = await UserModel.findOne({ email });
 
   if (user) {
-    res.status(400);
-    throw new Error("This email has been registered please login");
+    return next(
+      handleError(400, "This email has been registered please login")
+    );
   }
 
   const trimmedUserName = username.trim();
 
   if (trimmedUserName.length < 3) {
-    res.status(400);
-    throw new Error("Username should be at least min 3 character");
+    return next(
+      handleError(400, "Username should be at least min 3 character")
+    );
   }
 
   if (
@@ -40,9 +40,11 @@ const register = asyncHandler(async (req, res) => {
       minSymbols: 1,
     })
   ) {
-    res.status(400);
-    throw new Error(
-      "Password is not strong enough. It should have at least 8 characters, including 1 uppercase letter, 1 lowercase letter, 1 number, and 1 symbol."
+    return next(
+      handleError(
+        400,
+        "Password is not strong enough. It should have at least 8 characters, including 1 uppercase letter, 1 lowercase letter, 1 number, and 1 symbol."
+      )
     );
   }
 
@@ -54,28 +56,25 @@ const register = asyncHandler(async (req, res) => {
   });
 
   res.status(201).json({ message: "Registration was successfully" });
-});
+};
 
-const login = asyncHandler(async (req, res) => {
+const login = async (req, res, next) => {
   const { email, password } = req.body;
 
   if (email === "" || password === "") {
-    res.status(400);
-    throw new Error("Please fill all the blanks");
+    return next(handleError(400, "Please fill all blankets !"));
   }
 
   const user = await UserModel.findOne({ email });
 
   if (!user) {
-    res.status(404);
-    throw new Error("User not found");
+    return next(handleError(404, "User not found"));
   }
 
   const isPassword = await comparePassword(password, user.password);
 
   if (!isPassword) {
-    res.status(400);
-    throw new Error("Credentials are wrong");
+    return next(handleError(400, "Credentials are wrong"));
   }
 
   const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY, {
@@ -92,9 +91,9 @@ const login = asyncHandler(async (req, res) => {
     })
     .status(200)
     .json(rest);
-});
+};
 
-const google = asyncHandler(async (req, res) => {
+const google = async (req, res, next) => {
   const { username, email, profilePicture } = req.body;
 
   const user = await UserModel.findOne({ email });
@@ -143,13 +142,13 @@ const google = asyncHandler(async (req, res) => {
       .status(200)
       .json(rest);
   }
-});
+};
 
-const logout = asyncHandler(async (req, res) => {
+const logout = async (req, res, next) => {
   res
     .clearCookie("token")
     .status(200)
     .json("User has been logout successfully");
-});
+};
 
 export { register, login, google, logout };

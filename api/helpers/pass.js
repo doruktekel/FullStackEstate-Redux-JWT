@@ -9,7 +9,11 @@ const hashPassword = async (password) => {
 };
 
 const comparePassword = async (password, clientPassword) => {
-  return await bcryptjs.compare(password, clientPassword);
+  try {
+    return await bcryptjs.compare(password, clientPassword);
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export { hashPassword, comparePassword };

@@ -3,7 +3,6 @@ import dotenv from "dotenv";
 import dB from "./config/db.js";
 import authRouter from "./routes/authRouter.js";
 import userRouter from "./routes/userRouter.js";
-import { errorMiddleware } from "./middlewares/errormiddleware.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import listRouter from "./routes/listRouter.js";
@@ -37,7 +36,18 @@ app.use("/api/user", userRouter);
 app.use("/api/list", listRouter);
 
 // app.use(notFound);
-app.use(errorMiddleware);
+app.use((err, req, res, next) => {
+  let statusCode = err.statusCode || 500;
+  let message = err.message || "Internal server error !";
+  let stack = process.env.NODE_ENV === "developer" ? err.stack : null;
+
+  res.status(statusCode).json({
+    success: false,
+    statusCode,
+    message,
+    stack,
+  });
+});
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
