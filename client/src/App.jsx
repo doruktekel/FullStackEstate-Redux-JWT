@@ -6,7 +6,7 @@ import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Register from "./pages/Register";
 import Header from "./components/Header";
-import axios from "axios";
+// import axios from "axios";
 import PrivateRoute from "./components/PrivateRoute";
 import CreateList from "./pages/CreateList";
 import Lists from "./pages/Lists";
@@ -16,9 +16,8 @@ import Search from "./pages/Search";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-axios.defaults.baseURL = "https://fullstackestate-redux-jwt.onrender.com";
-// axios.defaults.baseURL = "http://localhost:3000";
-axios.defaults.withCredentials = true;
+// axios.defaults.baseURL = "https://fullstackestate-redux-jwt.onrender.com";
+// axios.defaults.withCredentials = true;
 
 const App = () => {
   return (
