@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import dB from "./config/db.js";
 import authRouter from "./routes/authRouter.js";
 import userRouter from "./routes/userRouter.js";
-import cors from "cors";
+// import cors from "cors";
 import cookieParser from "cookie-parser";
 import listRouter from "./routes/listRouter.js";
 import path from "path";
@@ -12,13 +12,12 @@ const app = express();
 
 app.use(express.json());
 app.use(urlencoded({ extended: true }));
-app.use(
-  cors({
-    origin: "https://fullstackestate-redux-jwt.onrender.com",
-    // origin: "http://localhost:5173",
-    credentials: true,
-  })
-);
+// app.use(
+//   cors({
+//     origin: "https://fullstackestate-redux-jwt.onrender.com",
+//     credentials: true,
+//   })
+// );
 app.use(cookieParser());
 
 const __dirname = path.resolve();
