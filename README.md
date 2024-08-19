@@ -22,3 +22,9 @@ Technologies used:
 💻 Both mobile and desktop experience with responsive interface
 📚 Git/GitHub
 🌐 Render platform for distribution
+
+<img width="1420" alt="Ekran Resmi 2024-08-19 12 22 08" src="https://github.com/user-attachments/assets/6c374b3d-f09c-4ddb-a7c2-5500d2497480">
+<img width="1418" alt="Ekran Resmi 2024-08-19 12 22 27" src="https://github.com/user-attachments/assets/bf716aca-68e8-4624-8f08-d1d31869ca64">
+<img width="1412" alt="Ekran Resmi 2024-08-19 13 30 54" src="https://github.com/user-attachments/assets/7f861683-77fe-4a60-9f6a-95c3faf7b88d">
+<img width="1410" alt="Ekran Resmi 2024-08-19 13 31 17" src="https://github.com/user-attachments/assets/b68524cc-2528-4831-a79f-fafe94736d39">
+<img width="335" alt="Ekran Resmi 2024-08-19 13 39 02" src="https://github.com/user-attachments/assets/633e1b25-bdb9-4340-a8da-bb40ab5a452b">
