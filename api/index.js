@@ -1,14 +1,17 @@
+import path from "path";
 import express, { urlencoded } from "express";
 import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
 import dB from "./config/db.js";
 import authRouter from "./routes/authRouter.js";
 import userRouter from "./routes/userRouter.js";
 // import cors from "cors";
-import cookieParser from "cookie-parser";
 import listRouter from "./routes/listRouter.js";
-import path from "path";
 
 const app = express();
+const __dirname = path.resolve();
+
+dotenv.config();
 
 app.use(express.json());
 app.use(urlencoded({ extended: true }));
@@ -20,19 +23,15 @@ app.use(urlencoded({ extended: true }));
 // );
 app.use(cookieParser());
 
-const __dirname = path.resolve();
-app.use(express.static(path.join(__dirname, "/client/dist")));
+app.use("/api/auth", authRouter);
+app.use("/api/user", userRouter);
+app.use("/api/list", listRouter);
 
-dotenv.config();
-dB();
+app.use(express.static(path.join(__dirname, "/client/dist")));
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
 });
-
-app.use("/api/auth", authRouter);
-app.use("/api/user", userRouter);
-app.use("/api/list", listRouter);
 
 // app.use(notFound);
 app.use((err, req, res, next) => {
@@ -50,5 +49,6 @@ app.use((err, req, res, next) => {
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
+  dB();
   console.log(`Listening port : ${PORT}`);
 });
